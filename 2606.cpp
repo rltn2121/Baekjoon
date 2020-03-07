@@ -12,16 +12,15 @@
 //
 //	visited[n] = true;
 //	sum++;
-//	for (int i = 0; i < src.size(); i++) {
-//		if (visited[src[n][i]])
-//			continue;
-//		dfs(visited[src[n][i]]);
+//	for (int i = 0; i < src[n].size(); i++) {
+//		if (!visited[src[n][i]])
+//			dfs(src[n][i]);
 //	}
 //}
 //int main() {
 //	int n, m;
 //	cin >> n >> m;
-//	src.resize(n);
+//	src.resize(n+1);
 //	while (m--) {
 //		int a, b;
 //		cin >> a >> b;
@@ -29,6 +28,7 @@
 //		src[b].push_back(a);
 //	}
 //	dfs(1);
-//	cout << sum;
+//	cout << sum-1 << endl;
+//
 //
 //}
