@@ -1,81 +1,25 @@
 #include <iostream>
-#include <algorithm>
 using namespace std;
 int arr[1001];
-int dp[1001][1001];
+int dp[1001];
+int n;
+int max_length = 0;
 int main() {
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
 
-	int n;
 	cin >> n;
-	int max_arr = -1;
-	for (int i = 0; i < n; i++)	{
+	for (int i = 1; i <= n; i++)
 		cin >> arr[i];
-		max_arr = (arr[i] > max_arr ? arr[i] : max_arr);
-	}
-	if (n == 1)
-	{
-		cout << 1 << endl;
-		return 0;
-	}
-	int max_dp = -1;
-	int i = 0;
-	int j = 0;
-	for (i = 0; i < n; i++) {
-		dp[i][i] = 1;
-		if (i == 0 && arr[i] == max_arr)
-			continue;
-		int start = arr[i];
-
-		for (j = i + 1; j < n; j++) {
-			
-			if (arr[j] > start) {
-				start = arr[j];
-				dp[i][j] = dp[i][j - 1] + 1;
-			}
-			else
-				dp[i][j] = dp[i][j - 1];
-
-
-			if (arr[j - 1] == max_arr) {
-				if (arr[j] > arr[j - 2])
-					start = arr[j];
-				else if (arr[j] == arr[j - 2]) {
-					start = arr[j];
-					dp[i][j]--;
-				}
-				else
-					start = arr[j];
-			}
+	
+	for (int i = 1; i <= n; i++) {
+		for (int j = i+1; j <= n; j++) {
+			// 갱신할 지 말 지 선택
+			if (arr[j] > arr[i])
+				dp[j] = (dp[i] + 1 > dp[j]) ? dp[i] + 1 : dp[j];
 		}
-		max_dp = (max_dp < dp[i][j - 1] ? dp[i][j - 1] : max_dp);
+		// 최대 길이 갱신
+		max_length = max_length > dp[i] ? max_length : dp[i];
 	}
-	cout << max_dp << endl;
+	cout << max_length + 1;
 }
-
-
-/*for (int i = 0; i < n; i++) {
-		int j = 0;
-		dp[i][i] = 1;
-		int start = arr[i];
-		for (j = i+1; j < n; j++) {
-			if (arr[j] > start) {
-				if (arr[j] != max_arr)
-					start = arr[j];
-
-				dp[i][j] = dp[i][j-1] + 1;
-			}
-			else
-				dp[i][j] = dp[i][j - 1];
-		}
-		max = (max < dp[i][j-1] ? dp[i][j-1] : max);
-	}*/
-
-	/*for (int i = 0; i < n; i++) {
-		for (int j = 0; j < n; j++) {
-			cout << dp[i][j] << ' ';
-		}
-		cout << endl;
-	}
-
-	cout << "max: " << max << endl;*/
-
