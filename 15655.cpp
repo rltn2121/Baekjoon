@@ -2,39 +2,28 @@
 #include <algorithm>
 using namespace std;
 int n, m;
-int res[10];
+int list[10];
 int arr[10];
-bool visited[10];
-void func(int k) {
-	if (k == m) {
-		int min = res[0];
-		for (int i = 0; i < m; i++) {
-			if (min > res[i]) return;
-			min = res[i];
-		}
-
-		for (int i = 0; i < m; i++)
-			cout << res[i] << ' ';
+void dfs(int x, int cnt) {
+	if (cnt == n) {
+		for (int i = 0; i < n; i++)
+			cout << arr[i] << ' ';
 		cout << '\n';
 		return;
 	}
 
-	for (int i = 0; i < n; i++) {
-		if (!visited[i]) {
-			res[k] = arr[i];
-			visited[i] = 1;
-			func(k + 1);
-			visited[i] = 0;
-		}
+	for (int i = x; i < m; i++) {
+		arr[cnt] = list[i];
+		dfs(i+1, cnt+1);
 	}
 }
 int main() {
 	ios_base::sync_with_stdio(false);
 	cin.tie(NULL);
-	cin >> n >> m;
-	for (int i = 0; i < n; i++)
-		cin >> arr[i];
-	sort(arr, arr + n);
-	func(0);
+	cin >> m >> n;
+	for (int i = 0; i < m; i++)
+		cin >> list[i];
+	sort(list, list + m);
+	dfs(0,0);
 
 }

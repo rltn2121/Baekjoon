@@ -1,34 +1,28 @@
 #include <iostream>
 #include <algorithm>
-using namespace std; 
-int n, m;
-int res[10];
-int arr[10];
-bool visited[10];
-void func(int k) {
-	if (k == m) {
-		for (int i = 0; i < m; i++)
-			cout << res[i] << ' ';
+using namespace std;
+int m, n, arr[9], list[9];
+bool visited[9];
+void dfs(int x, int cnt) {
+	if (cnt == n) {
+		for (int i = 0;i < cnt;i++)
+			cout << arr[i] << ' ';
 		cout << '\n';
 		return;
 	}
-
-	for (int i = 0; i < n; i++) {
+	for (int i = 0; i < m; i++) {
 		if (!visited[i]) {
-			res[k] = arr[i];
+			arr[cnt] = list[i];
 			visited[i] = 1;
-			func(k + 1);
+			dfs(i, cnt + 1);
 			visited[i] = 0;
 		}
 	}
 }
 int main() {
-	ios_base::sync_with_stdio(false);
-	cin.tie(NULL);
-	cin >> n >> m;
-	for (int i = 0; i < n; i++)
-		cin >> arr[i];
-	sort(arr, arr + n);
-	func(0);
-		
+	cin >> m >> n;
+	for (int i = 0;i < m; i++)
+		cin >> list[i];
+	sort(list, list + m);
+	dfs(0, 0);
 }
