@@ -9,10 +9,9 @@ int main() {
 		cin >> arr[i];
 		dp[i] = arr[i];
 	}
-	for (int i = 1; i <= n; i++) {
-		for (int j = 1; j <= i / 2; j++) {
-			dp[i] = max(dp[i], arr[j] + dp[i - j]);
-		}
+	rep(i, n) {
+		rep(j, i / 2) 
+			dp[i] = min(dp[i], arr[j] + dp[i - j]);
 	}
 	cout << dp[n];
 }
