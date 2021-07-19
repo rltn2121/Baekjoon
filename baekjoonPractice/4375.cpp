@@ -1,16 +1,19 @@
 #include <iostream>
+#define ll long long
 using namespace std;
-long long n;
+ll n;
 int main() {
-	while (cin >> n) {	// while(!cin.eof()) 하면 틀림
-		int ans = 1;
-		long long div = 1;
-		while (div % n != 0) {
-			div = div * 10 + 1;
-			div %= n;	// 여기가 핵심
-						// (x mod n) == ( (x mod n) mod n)
-			ans++;
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+	while (cin >> n) {
+		int cnt = 2;
+
+		ll x = 11;
+		while (x % n != 0) {
+			x = x * 10 + 1;
+			x %= n;
+			cnt++;
 		}
-		cout << ans << '\n';
+		cout << cnt << '\n';
 	}
 }

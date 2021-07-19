@@ -1,38 +1,39 @@
 #include <iostream>
+#include <vector>
 #include <algorithm>
 #define rep(i,n) for(int i=0;i<n;i++)
 using namespace std;
-char arr[16];
-char ans[16];
-int l, c;
-// 모음 최소 1개
-// 자음 최소 2개
-void dfs(int idx, int step) {
-if (step == l) {
-	int cnt1 = 0, cnt2 = 0;
-	rep(i, l) {
-		if (ans[i] == 'a' || ans[i] == 'e' || ans[i] == 'i' || ans[i] == 'o' || ans[i] == 'u')
-			cnt1++;
-		else
-			cnt2++;
-		// 조건 만족하면 바로 출력
-		if (cnt1 >= 1 && cnt2 >= 2) {
-			rep(i, l)
-				cout << ans[i];
-			cout << '\n';
-			return;
-		}
-	}
-	return;
+int l, c, ans, m_cnt, j_cnt;
+char arr[15];
+vector<char> v;
+void check(int i, int val) {
+	if (arr[i] == 'a' || arr[i] == 'i' || arr[i] == 'o' || arr[i] == 'u' || arr[i] == 'e')
+		m_cnt += val;
+	else
+		j_cnt += val;
 }
+void dfs(int idx, int cnt) {
+	if (cnt == l) {
+		if (m_cnt >= 1 && j_cnt >= 2) {
+			// 모음 1개, 자음 2개
+			for (char c : v)
+				cout << c;
+			cout << '\n';
+		}
+		return;
+			
+	}
 	for (int i = idx; i < c; i++) {
-		ans[step] = arr[i];
-		dfs(i + 1, step + 1);
+		v.push_back(arr[i]);
+		check(i, 1);
+		dfs(i + 1, cnt + 1);
+		v.erase(v.end() - 1);
+		check(i, -1);
 	}
 }
 int main() {
-	ios_base::sync_with_stdio(0);
-	cin.tie(0);
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
 	cin >> l >> c;
 	rep(i, c)
 		cin >> arr[i];

@@ -1,29 +1,30 @@
 #include <iostream>
+#define rep(i,n) for(int i=0;i<n;i++)
 using namespace std;
-int arr[10001];
-int sum(int a, int b) {
-	int ret = 0;
-	for (int i = a; i < b; i++)
-		ret += arr[i];
-	return ret;
-}
+int n, m, arr[10000], sum[10000], ans;
 int main() {
 	ios_base::sync_with_stdio(false);
-	cin.tie(0);
+	cin.tie(NULL);
 
-	int n, m;
 	cin >> n >> m;
-	for (int i = 0; i < n; i++)
+	rep(i, n) {
 		cin >> arr[i];
-	int start = 0, end = 0;
-	int cnt = 0;
-	while (start <= end) {
-		if (sum(start, end) == m)
-			cnt++;
-		if (sum(start, end) > m || end == n)
-			start++;
+		if (i > 0)
+			sum[i] = sum[i - 1] + arr[i];
 		else
-			end++;
+			sum[i] = arr[i];
+
+		if (sum[i] == m)
+			ans++;
 	}
-	cout << cnt << '\n';
+
+
+	for(int i = 1; i<n; i++) {
+		for(int j = 0; j<i; j++){
+			if (sum[i] - sum[j] == m)
+				ans++;
+		}
+	}
+
+	cout << ans;
 }

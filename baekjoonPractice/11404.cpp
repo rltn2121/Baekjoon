@@ -1,48 +1,47 @@
 #include <iostream>
+#include <algorithm>
+#include <cstring>
+#define rep(i,n) for(int i=1;i<=n;i++)
+#define INF 1e9
 using namespace std;
-
+int n, m,arr[101][101];
 int main() {
-	int city;
-	int bus;
-	
-	scanf_s("%d %d", &city, &bus);
-
-	int fromTo[101][101];
-	for (int i = 0; i <= city; i++) {
-		for (int j = 0; j <= city; j++)
-		{
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+	cin >> n >> m;
+	rep(i, n) {
+		rep(j, n) {
 			if (i == j)
-				fromTo[i][j] = 0;
+				arr[i][j] = -1;
 			else
-				fromTo[i][j] = 999999;
+				arr[i][j] = INF;
 		}
 	}
-
-	int from=0;
-	int to=0;
-	int cost=0;
-	for (int i = 1; i <= bus; i++) {
-		cin >> from >> to >> cost;
-		if(cost < fromTo[from][to])
-			fromTo[from][to] = cost;
+	rep(i, m) {
+		int a, b, w;
+		cin >> a >> b >> w;
+		arr[a][b] = min(arr[a][b], w);
 	}
 
-	for (int visit = 1; visit <= city; visit++) {
-		for (int start = 1; start <= city; start++) {
-			for (int end = 1; end <= city; end++) {
-				if (fromTo[start][visit] + fromTo[visit][end] < fromTo[start][end])
-					fromTo[start][end] = fromTo[start][visit] + fromTo[visit][end];
+	rep(col, n) {
+		rep(row, n) {
+			int now = arr[row][col];
+			if (now == INF || now == -1) continue;
+
+			rep(i, n) {
+				if (row == i || col == i) continue;
+				arr[row][i] = min(arr[row][i], arr[row][col] + arr[col][i]);
 			}
 		}
 	}
 
-	for (int i = 1; i <= city; i++) {
-		for (int j = 1; j <= city; j++)
-		{
-			if (fromTo[i][j] == 999999)
-				fromTo[i][j] = 0;
-			printf("%d ", fromTo[i][j]);
+	rep(i, n) {
+		rep(j, n) {
+			if (arr[i][j] == INF || arr[i][j] == -1)
+				cout << 0 << ' ';
+			else
+				cout << arr[i][j] << ' ';
 		}
-		printf("\n");
+		cout << '\n';
 	}
 }

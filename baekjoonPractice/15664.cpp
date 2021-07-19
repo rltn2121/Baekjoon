@@ -1,32 +1,26 @@
 #include <iostream>
 #include <algorithm>
+#define rep(i,n) for(int i=0;i<n;i++)
 using namespace std;
-int n, m;
-int arr[10];
-int res[10];
+int n, m, arr[10], ans[10];
 bool visited[10];
-void func(int k) {
-	if (k == m) {
-		int min = res[0];
-		for (int i = 1; i < m; i++) {
-			if (min > res[i])
-				return;
-			min = res[i];
-		}
-
-		for (int i = 0; i < m; i++)
-			cout << res[i] << ' ';
+void dfs(int cnt) {
+	if (cnt == m) {
+		rep(i, m)
+			cout << ans[i] << ' ';
 		cout << '\n';
 		return;
 	}
 
 	int before = -1;
 	for (int i = 0; i < n; i++) {
-		if (!visited[i] && before != arr[i]) {
+		if (before == arr[i]) continue;
+		if (cnt > 0 && ans[cnt - 1] > arr[i]) continue;
+		if (!visited[i]) {
 			visited[i] = 1;
 			before = arr[i];
-			res[k] = arr[i];
-			func(k + 1);
+			ans[cnt] = arr[i];
+			dfs(cnt + 1);
 			visited[i] = 0;
 		}
 	}
@@ -35,8 +29,8 @@ int main() {
 	ios_base::sync_with_stdio(false);
 	cin.tie(NULL);
 	cin >> n >> m;
-	for (int i = 0; i < n; i++)
+	rep(i, n)
 		cin >> arr[i];
 	sort(arr, arr + n);
-	func(0);
+	dfs(0);
 }

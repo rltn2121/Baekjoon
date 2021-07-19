@@ -1,20 +1,21 @@
 #include <iostream>
 #include <algorithm>
+#define rep(i,n) for(int i=1;i<=n;i++)
 using namespace std;
-int n, dp[501][501], ans = -1;
+int n, arr[501][501], ans;
 int main() {
-	ios_base::sync_with_stdio(0);
-	cin.tie(0);
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
 	cin >> n;
-	for (int i = 1; i <= n; i++) {
-		for (int j = 1; j <= i; j++)
-			cin >> dp[i][j];
+	rep(i, n) {
+		rep(j, i)
+			cin >> arr[i][j];
 	}
 
-	for (int i = 2; i <= n; i++) {
-		for (int j = 1; j <= n; j++) {
-			dp[i][j] += max(dp[i - 1][j - 1], dp[i - 1][j]);
-			ans = max(ans, dp[i][j]);
+	rep(i, n) {
+		rep(j, i) {
+			arr[i][j] += max(arr[i - 1][j - 1], arr[i - 1][j]);
+			ans = max(ans, arr[i][j]);
 		}
 	}
 	cout << ans;

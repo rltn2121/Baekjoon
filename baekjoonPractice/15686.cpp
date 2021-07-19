@@ -1,61 +1,65 @@
 #include <iostream>
 #include <algorithm>
-#define rep(i,n) for(int i=1;i<=n;i++)
+#define rep(i,n) for(int i=0;i<n;i++)
 using namespace std;
-int n, m, arr[51][51];
-int cnt = 0, ans = 987654321;
+int n, m, arr[50][50], chick_cnt, ans = 987654321;
 /*
-	도시의 치킨 거리 = 모든 집의 치킨 거리의 합
-	치킨 거리 = 현재 집에서 가장 가까운 치킨집과의 거리
-	m개 남기고 나머지 다 폐업
+0: 빈 칸
+1: 집
+2: 치킨집
 */
-int chk() {
-	int ret = 0;
-	rep(i, n) {
-		rep(j, n) {
-			if (arr[i][j] == 1) {										// 현재 위치가 가정집이면
-				int tmp = 987654321;
-				rep(a, n) {
-					rep(b, n) {
-						if (arr[a][b] == 2)								// 모든 치킨집과의 거리 계산
-							tmp = min(tmp, abs(i - a) + abs(j - b));	// 최솟값 저장
-						
+int getDistance(int hx, int hy, int cx, int cy) {
+	return abs(hx - cx) + abs(hy - cy);
+}
+
+
+void dfs(int x, int y, int cnt) {
+	if (cnt == m) {
+		int total_dist = 0;
+		// 집 찾았으면
+		rep(i, n) {
+			rep(j, n) {
+				if (arr[i][j] == 1) {
+					// 모든 치킨집과 비교하기
+					int min_dist = 987654321;
+					rep(a, n) {
+						rep(b, n) {
+							if (arr[a][b] == 2)
+								min_dist = min(min_dist, getDistance(i, j, a, b));
+						}
 					}
+					total_dist += min_dist;
 				}
-				ret += tmp;									// 도시의 치킨 거리 += 현재 집의 치킨 거리
 			}
 		}
-	}
-	return ret;
-}
-void dfs(int x, int y, int now) {
-	if (now == m) {					// m개만 남았으면 거리 체크
-		ans = min(ans, chk());
+		ans = min(ans, total_dist);
 		return;
 	}
 
-	for (int i = x; i <= n; i++) {
-		y = 1;
-		for (int j = y; j <= n; j++) {
-			if (arr[i][j] == 2) {	// 치킨집 찾으면 0으로 변경
-				arr[i][j] = 0;		// 폐업
-				dfs(i, j, now - 1);	// 개수 1개 줄이고 계속 탐색
-				arr[i][j] = 2;		// 다음 탐색을 위해 복구
+	for (int i = x; i < n; i++) {
+		for (int j = 0; j < n; j++) {
+			if (arr[i][j] == 2) {
+				arr[i][j] = 0;
+				dfs(i, j, cnt-1);
+				arr[i][j] = 2;
 			}
 		}
 	}
 }
+
 int main() {
-	ios_base::sync_with_stdio(0);
-	cin.tie(0);
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+
 	cin >> n >> m;
 	rep(i, n) {
 		rep(j, n) {
 			cin >> arr[i][j];
 			if (arr[i][j] == 2)
-				cnt++;
+				chick_cnt++;
 		}
 	}
-	dfs(1, 1, cnt);
+
+	dfs(0,0,chick_cnt);
 	cout << ans;
 }
