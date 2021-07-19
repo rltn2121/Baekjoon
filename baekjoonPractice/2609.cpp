@@ -1,23 +1,25 @@
 #include <iostream>
+#include <algorithm>
 using namespace std;
-int getGCD(int a, int b) {
-	int min = (a < b ? a : b);
-	int gcd = 1;
-	for (int i = 2; i <= min; i++) {
-		if (a%i == 0 && b%i == 0)
-			gcd = i;
+// 유클리드 호제법
+int gcd(int a, int b) {
+	int x = max(a, b);
+	int y = min(a, b);
+	int r;
+	while (y > 0) {
+		r = x % y;
+		x = y;
+		y = r;
 	}
-	return gcd;
+	return x;
 }
-int getLCM(int a, int b, int gcd) {
-	int x = a / gcd;
-	int y = b / gcd;
-	return x * y * gcd;
+int lcm(int a, int b) {
+	int common = gcd(a, b);
+	return (a / common) * common * (b / common);
 }
 int main() {
 	int a, b;
 	cin >> a >> b;
-	int gcd = getGCD(a, b);
-	cout <<  gcd<< endl;
-	cout << getLCM(a, b, gcd) << endl;
+	cout << gcd(a, b) << '\n'
+		<< lcm(a, b);
 }

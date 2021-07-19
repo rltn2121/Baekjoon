@@ -1,31 +1,22 @@
 #include <iostream>
 #include <map>
-#include <set>
 using namespace std;
-multimap<int, int> m;
-multiset<int, greater<int> > s;
+map<int, int> m;
 int main() {
-	ios_base::sync_with_stdio(0);
-	cin.tie(0);
-	int n;
+	int n, x, cnt = 0;
 	cin >> n;
-	for (int i = 1; i <= n; i++) {
-		int a;
-		cin >> a;
-		m.insert(make_pair( a,i ));
-		s.insert(a);
+	for (int i = 0; i < n; i++) {
+		cin >> x;
+
+		if (m.find(x) == m.end())
+			m.insert({ x, 1 });
+		else
+			m[x]++;
+
+		if ((m.find(x + 1) == m.end()) || m[x + 1] == 0)
+			cnt++;
+		else
+			m[x + 1]--;
 	}
-
-
-
-	int cnt = 1;
-
-
-	int h = *s.begin();
-	s.erase(s.begin());
-	while (true) {
-		auto it = m.find(h);
-	}
-
-	cout << cnt << '\n';
+	cout << cnt;
 }

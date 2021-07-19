@@ -7,8 +7,8 @@ void eratos(int n) {
 		if (arr[i] == 1)
 			continue;
 
-		for (int j = 2*i; j <= n; j+=i) 
-			arr[j] = 1;
+		for (int j = 2; i*j<=n; j++) 
+			arr[i*j] = 1;
 	}
 }
 

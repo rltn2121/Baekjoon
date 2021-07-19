@@ -1,32 +1,29 @@
 #include <iostream>
 #include <algorithm>
 using namespace std;
+int arr[9], sum = 0;
 int main() {
-	ios_base::sync_with_stdio(false);
+	ios_base::sync_with_stdio(0);
 	cin.tie(0);
-	bool found = false;
-	int arr[9];
-	int sum = 0;
-	for (int i = 0; i < 9; i++) {
+	for (int i = 0;i < 9;i++) {
 		cin >> arr[i];
 		sum += arr[i];
 	}
-	int i = 0, j = 0;
-	for (i = 0; i < 8; i++) {
-		for (j = i + 1; j < 9; j++) {
-			if (sum - arr[i] - arr[j] == 100) {
-				arr[i] = 999;
-				arr[j] = 999;
-				found = true;
+	sort(arr, arr + 9);
+
+	for (int i = 0; i < 9; i++) {
+		sum -= arr[i];
+		for (int j = i + 1; j < 9; j++) {
+			sum -= arr[j];
+			if (sum == 100) {
+				for (int k = 0; k < 9; k++) {
+					if (k == i || k == j) continue;
+					cout << arr[k] << '\n';
+				}
 				break;
 			}
+			sum += arr[j];
 		}
-		if (found)
-			break;
+		sum += arr[i];
 	}
-
-	sort(arr, arr + 9);
-	for (int i = 0; i < 7; i++)
-		cout << arr[i] << endl;
-	
 }

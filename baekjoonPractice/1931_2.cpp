@@ -1,13 +1,15 @@
 #include <iostream>
 #include <algorithm>
 #include <vector>
+#define pr pair<int, int>
+#define fst first
+#define snd second
 using namespace std;
-typedef pair<int, int> pr;
 vector<pr> v;
 bool cmp(pr& a, pr& b) {
-	if (a.second == b.second)
-		return a.first < b.first;
-	return a.second < b.second;
+	if (a.snd == b.snd)
+		return a.fst < b.fst;
+	return a.snd < b.snd;
 }
 int main() {
 	ios_base::sync_with_stdio(false);
@@ -16,18 +18,15 @@ int main() {
 	cin >> t; 
 	while (t--) {
 		pr p;
-		cin >> p.first >> p.second;
+		cin >> p.fst >> p.snd;
 		v.push_back(p);
 	}
 	sort(v.begin(), v.end(), cmp);
-	for (auto it : v) {
-		cout << it.first << ' ' << it.second << '\n';
-	}
 	int cnt = 0;
 	int lastTime = -1;
 	for (auto it : v) {
-		if (it.first >= lastTime) {
-			lastTime = it.second;
+		if (it.fst >= lastTime) {
+			lastTime = it.snd;
 			cnt++;
 		}
 	}

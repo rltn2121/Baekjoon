@@ -1,61 +1,54 @@
+// https://www.acmicpc.net/board/view/25583
 #include <iostream>
 #include <vector>
+#include <cstring>
 using namespace std;
-vector<vector<int> > g;
-int state[20001];
-void init(int n) {
-	g.clear();
-	g.resize(n + 1);
-	for (int i = 0; i <= n; i++)
-		state[i] = false;
+int k, v, e, a, b, arr[20001];
+vector<vector<int> > vec;
+void dfs(int now) {
+	// 현재 정점이 속한 그룹이 없을 때 (0일 때)
+	if (!arr[now])
+		arr[now] = 1;
+
+	// 현재 정점이 속한 그룹이 있다면
+	// 연결된 정점은 무조건 현재 정점과 반대가 되어야 함
+	for (int i : vec[now]) {
+		if (!arr[i]) {
+			arr[i] = (arr[now] == 1 ? 2 : 1);
+			dfs(i);
+		}
+	}
 }
 
-void dfs(int current) {
-	if (!state[current])
-		state[current] = 1;
-	
-	for (int next : g[current]) {
-		if (!state[next]) {
-			if (state[current] == 1)
-				state[next] = 2;
-			else
-				state[next] = 1;
-			dfs(next);
+bool chk() {
+	for (int i = 0; i < vec.size(); i++) {
+		for (int j : vec[i]) {		// 나와 연결된 모든 정점 탐색
+			if (arr[i] == arr[j])	// 연결된 정점은 무조건 다른 그룹이어야 함
+				return false;		// 연결된 정점이 같은 그룹이면 FALSE
 		}
 	}
-}
-bool isBipartite(vector<vector<int> > &g) {
-	for (int i = 1; i < g.size(); i++) {
-		for (int j : g[i]) {
-			if (state[i] == state[j])
-				return 0;
-		}
-	}
-	return 1;
+	return true;
 }
 int main() {
-	ios_base::sync_with_stdio(false);
+	ios_base::sync_with_stdio(0);
 	cin.tie(0);
-	int t;
-	cin >> t;
-	while (t--) {
-		int v, e;
+	cin >> k;
+	while (k--) {
 		cin >> v >> e;
-		init(v);
+		memset(arr, 0, sizeof(arr));
+		vec.clear();
+		vec.resize(v+1);
 		for (int i = 0; i < e; i++) {
-			int a, b;
 			cin >> a >> b;
-			g[a].push_back(b);
-			g[b].push_back(a);
+			vec[a].push_back(b);
+			vec[b].push_back(a);
 		}
-		for (int i = 1; i <= v; i++) {
-			if(!state[i])
+		// 모든 정점에 대해서 탐색
+		for (int i = 0; i < v;i++) {
+			// 해당 정점이 속한 그룹이 없으면 (0이면)
+			if (!arr[i])
 				dfs(i);
 		}
-		if (isBipartite(g))
-			cout << "YES\n";
-		else
-			cout << "NO\n";
+		cout << (chk() ? "YES" : "NO") << '\n';
 	}
-	
 }
