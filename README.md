@@ -10,6 +10,9 @@
   <li>
    solved.ac: https://solved.ac/profile/rltn2121
   </li>
+  <li>
+    문제 풀이: https://rltn2121.tistory.com/
+  </li>
 </ul>
 
 
