@@ -1280,10 +1280,11 @@
     <ClCompile Include="13305.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="p_42576.cpp" />
-    <ClCompile Include="p_42577.cpp" />
-    <ClCompile Include="p_42578.cpp" />
-    <ClCompile Include="p_42579.cpp" />
+    <ClCompile Include="p_42587.cpp" />
+    <ClCompile Include="p_43165.cpp" />
+    <ClCompile Include="프로그래머스\p_43162.cpp" />
+    <ClCompile Include="프로그래머스\p_43165.cpp" />
+    <ClCompile Include="프로그래머스\p_43163.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
